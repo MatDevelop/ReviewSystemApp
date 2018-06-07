@@ -1,0 +1,137 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema reviewsystemdb
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema reviewsystemdb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `reviewsystemdb` DEFAULT CHARACTER SET utf8 ;
+USE `reviewsystemdb` ;
+
+-- -----------------------------------------------------
+-- Table `reviewsystemdb`.`user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `reviewsystemdb`.`user` (
+  `userID` INT(11) NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NOT NULL,
+  `password` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NOT NULL,
+  `active` INT(11) NULL DEFAULT NULL,
+  `name` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NULL DEFAULT NULL,
+  `surname` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NULL DEFAULT NULL,
+  `degree` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NULL DEFAULT NULL,
+  `workplace` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NULL DEFAULT NULL,
+  PRIMARY KEY (`userID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 26
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_polish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `reviewsystemdb`.`article`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `reviewsystemdb`.`article` (
+  `articleID` INT(11) NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NULL DEFAULT NULL,
+  `description` VARCHAR(255) NULL DEFAULT NULL,
+  `keywords` VARCHAR(255) NULL DEFAULT NULL,
+  `authorname` VARCHAR(255) NULL DEFAULT NULL,
+  `contact` VARCHAR(255) NULL DEFAULT NULL,
+  `authoraddress` VARCHAR(105) NULL DEFAULT NULL,
+  `affiliation` VARCHAR(100) NULL DEFAULT NULL,
+  `pdffile` MEDIUMBLOB NULL DEFAULT NULL,
+  `docfile` MEDIUMBLOB NULL DEFAULT NULL,
+  `userid` INT(11) NOT NULL,
+  `status` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`articleID`),
+  INDEX `FKelgm0p05jcmiodumajg3rhm7a` (`userid` ASC),
+  CONSTRAINT `FKelgm0p05jcmiodumajg3rhm7a`
+    FOREIGN KEY (`userid`)
+    REFERENCES `reviewsystemdb`.`user` (`userID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 3
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `reviewsystemdb`.`review`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `reviewsystemdb`.`review` (
+  `reviewID` INT(11) NOT NULL AUTO_INCREMENT,
+  `pdffile` MEDIUMBLOB NULL DEFAULT NULL,
+  `review_article_ID` INT(11) NULL DEFAULT NULL,
+  `reviewerID` INT(11) NULL DEFAULT NULL,
+  `status` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`reviewID`),
+  INDEX `FKgp8otoikvg4igwoy1f7il38en` (`review_article_ID` ASC),
+  INDEX `FKmqj0515lltp66kgmbgs42gvkf` (`reviewerID` ASC),
+  CONSTRAINT `FKgp8otoikvg4igwoy1f7il38en`
+    FOREIGN KEY (`review_article_ID`)
+    REFERENCES `reviewsystemdb`.`article` (`articleID`),
+  CONSTRAINT `FKmqj0515lltp66kgmbgs42gvkf`
+    FOREIGN KEY (`reviewerID`)
+    REFERENCES `reviewsystemdb`.`user` (`userID`),
+  CONSTRAINT `articleIDFK`
+    FOREIGN KEY (`review_article_ID`)
+    REFERENCES `reviewsystemdb`.`article` (`articleID`),
+  CONSTRAINT `reviewerIDFK`
+    FOREIGN KEY (`reviewerID`)
+    REFERENCES `reviewsystemdb`.`user` (`userID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 8
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `reviewsystemdb`.`role`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `reviewsystemdb`.`role` (
+  `roleID` INT(11) NOT NULL AUTO_INCREMENT,
+  `role` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_polish_ci' NULL DEFAULT NULL,
+  PRIMARY KEY (`roleID`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 4
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_polish_ci;
+
+
+-- -----------------------------------------------------
+-- Table `reviewsystemdb`.`user_role`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `reviewsystemdb`.`user_role` (
+  `userID` INT(11) NOT NULL,
+  `roleID` INT(11) NOT NULL,
+  PRIMARY KEY (`userID`),
+  INDEX `roleID_idx` (`roleID` ASC),
+  CONSTRAINT `FKbo5ik0bthje7hum554xb17ry6`
+    FOREIGN KEY (`roleID`)
+    REFERENCES `reviewsystemdb`.`role` (`roleID`),
+  CONSTRAINT `FKd0xwi6psywvnj59btfns0alnm`
+    FOREIGN KEY (`userID`)
+    REFERENCES `reviewsystemdb`.`user` (`userID`),
+  CONSTRAINT `roleID`
+    FOREIGN KEY (`roleID`)
+    REFERENCES `reviewsystemdb`.`role` (`roleID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `userID`
+    FOREIGN KEY (`userID`)
+    REFERENCES `reviewsystemdb`.`user` (`userID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

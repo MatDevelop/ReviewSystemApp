@@ -1,0 +1,32 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+#container {
+    min-height: 93%;
+}
+.footersettings{
+    text-align: center;
+    position:static;
+    padding-top:20px;
+ }
+.invisible{
+    display:none;
+}
+.btn-sq-lg {
+    width: 200px !important;
+    height: 200px !important;
+}
+.btn-view-product{
+    width: 150px !important;
+}
+.center-text-button{
+    font-size:large;
+    text-align: center;
+    display:table-cell;
+    vertical-align:middle;
+}
+.top100{
+    padding-top:100px;
+}

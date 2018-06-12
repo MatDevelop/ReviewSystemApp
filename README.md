@@ -1,5 +1,5 @@
 # ReviewSystemApp
-System recenzji prac. Pozwala na wprowadzanie artykułów w formacie .pdf i .docx oraz przydzielenia dwójki recenzentów, którzy mogą pobrać artykuły i wprowadzić recenzję.
+System recenzji artykułów naukowych. Pozwala na wprowadzanie artykułów w formacie .pdf i .docx oraz przydzielenia dwójki recenzentów, którzy mogą pobrać artykuły i wprowadzić recenzję.
 ## Opis działania aplikacji
 
   Opis działania aplikacji znajduję się w pliku [HowItWorks](https://github.com/MatDevelop/ReviewSystemApp/blob/master/HowItWorks.pdf)
